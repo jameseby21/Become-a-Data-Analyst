@@ -64,6 +64,7 @@ The check detects missing local targets and Markdown pages unreachable from READ
 - [data/LICENSE.md](../data/LICENSE.md)
 - [data/market/v1/README.md](../data/market/v1/README.md)
 - [DATA_SOURCES.md](../DATA_SOURCES.md)
+- [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md)
 - [docs/case_outcomes.md](../docs/case_outcomes.md)
 - [docs/cases/adelphia.md](../docs/cases/adelphia.md)
 - [docs/cases/bayou.md](../docs/cases/bayou.md)

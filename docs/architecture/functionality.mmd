@@ -1,0 +1,64 @@
+flowchart TB
+  subgraph DEMO["Transaction demo  /"]
+    ALERT["Alert queue, records, alternatives<br/>fraud.py report, /api/report, web/index.html"]
+    EXPORT["JSON export with source digest<br/>/api/export"]
+  end
+  subgraph LIBRARY["Evidence library  /library"]
+    CASES["26 resolved cases, date-gated sources<br/>casebook.py, data/cases.json, /api/catalog"]
+    REPLAY["Mechanism replay: step, play, thresholds<br/>casebook.mechanism_replay, /api/replay"]
+    PRIOR["Modern research priorities, no guilt scores<br/>data/cases.json, web/library.js"]
+    DESK["Public intake desk: awards sample, search, CSV<br/>/api/data, /api/download, data/spending/"]
+    QUAL["8 read-only data-quality checks<br/>quality.py, /api/quality"]
+    FRESH["Publication vs retrieval age<br/>freshness.py, /api/source"]
+  end
+  subgraph RECORDS["Public records  /records"]
+    REG["Source registry, revisions, downloads<br/>record_library.py, /records, /api/records, /api/record"]
+  end
+  subgraph LEARN["Learn  /learn"]
+    CAT["5 courses, 21 lessons<br/>courses/catalog.json, learning.py, /api/learning/catalog"]
+    LESSON["Lesson, charts, summaries<br/>/api/learning/lesson, chart, summary"]
+    QUIZ["Section checks + common-error hints<br/>POST /api/learning/quiz, common_errors.json"]
+    GLOSS["Term index<br/>data/learning/glossary.json, /api/learning/glossary"]
+    TRACKS["Python, R, Power BI, Excel tracks<br/>courses/*/*.ipynb, courses/tracks/"]
+    DS["Practice datasets: payments, forensic v2,<br/>market v1, baseball real + synthetic<br/>*_fixture.py, baseball*.py, /api/learning/download"]
+  end
+  subgraph GAME["Case-file game  /game"]
+    GCASE["4 fictional cases, co-op or competitive, timer<br/>game_fixture.py, web/game.js, /api/game/case"]
+    GSCORE["Deterministic scoring, round lock<br/>POST /api/game/score"]
+    GPRINT["Printable packets + score sheet<br/>game/v1/print, /api/game/download"]
+  end
+  subgraph PIPE["Data pipeline, command line"]
+    FETCH["Fetch official sources, log blocks<br/>intake.py sources, record_library.py fetch"]
+    SPEND["Refresh awards sample<br/>intake.py spending"]
+    BUILD["Rebuild + verify fixtures and hashes<br/>intake.py build | verify, *_fixture.py"]
+    GUIDES["Generate lessons + case guides<br/>scripts/build_courses.py, build_case_guides.py"]
+  end
+  subgraph VAULTF["Private notes, optional"]
+    VINIT["Create, summarize, rotate vault<br/>vault.py"]
+    NOTES["Add, list, read, revise notes<br/>vault_notes.py"]
+  end
+  subgraph GATES["Quality gates"]
+    PUB["Publication guard<br/>publication_guard.py, .githooks/"]
+    DOCG["Doc graph + doctree<br/>documentation.py, docs/DOCTREE.md"]
+    FULL["Full verification<br/>scripts/run_checks.py, .github/workflows/verify.yml"]
+  end
+
+  ALERT --> EXPORT
+  CASES --> REPLAY
+  CASES --> PRIOR
+  SPEND --> DESK
+  DESK --> QUAL
+  FETCH --> REG
+  FETCH --> FRESH
+  CAT --> LESSON --> QUIZ
+  LESSON --> GLOSS
+  LESSON --> TRACKS
+  DS --> LESSON
+  BUILD --> DS
+  GUIDES --> CAT
+  GCASE --> GSCORE
+  GCASE --> GPRINT
+  GCASE -->|course extension| LESSON
+  VINIT --> NOTES
+  PUB --> FULL
+  DOCG --> FULL

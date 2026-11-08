@@ -79,7 +79,7 @@ The SHA-256 identifies the serialized fixture transactions; it is not proof that
 
 The longer-term objective is to identify credible, independently corroborated leads about active financial misconduct using public or explicitly authorized data, and prepare material suitable for qualified investigators. Discovery or enforcement outcomes cannot be promised. A second success path is a portfolio demonstrating the skills needed for fraud analytics and financial intelligence roles.
 
-Next, build a source-specific historical benchmark with defensible availability dates, benign comparisons, and independent labels. See [ROADMAP.md](ROADMAP.md), [MODEL_CARD.md](MODEL_CARD.md), and [CONTRIBUTING.md](CONTRIBUTING.md). Checkpoints are committed and pushed to https://github.com/jameseby21/Fraud; delivery state is recorded in CHECKPOINTS.md.
+Next, build a source-specific historical benchmark with defensible availability dates, benign comparisons, and independent labels. See [ROADMAP.md](ROADMAP.md), [MODEL_CARD.md](MODEL_CARD.md), [the architecture map](docs/ARCHITECTURE.md), and [CONTRIBUTING.md](CONTRIBUTING.md). Checkpoints are committed and pushed to https://github.com/jameseby21/Fraud; delivery state is recorded in CHECKPOINTS.md.
 
 Source panels distinguish publication/update age from successful retrieval age. Unknown dates remain unknown; failed refreshes do not reset age. A recent download does not establish that a finding is correct or current.
 
