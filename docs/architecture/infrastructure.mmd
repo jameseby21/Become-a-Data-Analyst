@@ -1,0 +1,74 @@
+flowchart LR
+  subgraph PC["Owner PC: Windows or Linux, Python 3.12+"]
+    direction TB
+    subgraph BROWSER["Browser"]
+      WEB["web/*.html, *.js, *.css<br/>transaction demo, library, learn, game<br/>vanilla JS, no build step"]
+      LSB[("localStorage<br/>course progress, tool choice, game scores")]
+    end
+    APP["app.py<br/>stdlib ThreadingHTTPServer<br/>127.0.0.1:8765, loopback only"]
+    subgraph MODS["Python modules, standard library only"]
+      ENGINE["fraud.py, casebook.py<br/>quality.py, freshness.py"]
+      LEARN["learning.py, baseball.py<br/>baseball_real.py"]
+      LIB["record_library.py<br/>source registry"]
+      GAMEF["game_fixture.py<br/>forensic_fixture.py"]
+    end
+    subgraph CLI["Command-line build and verify"]
+      INTAKE["intake.py<br/>build, verify, spending, sources"]
+      FIXT["learning_ / forensic_ / market_ / game_fixture.py<br/>baseball.py, baseball_real.py: build | verify"]
+      GEN["scripts/build_courses.py<br/>scripts/build_case_guides.py"]
+    end
+    DATA[("data/<br/>JSON, JSONL, CSV<br/>raw source bytes named by SHA-256")]
+    COURSES[("courses/<br/>Markdown, .ipynb, R, Power Query, DAX")]
+    GAMEDATA[("game/v1/<br/>ledgers CSV, print Markdown,<br/>instructor answers")]
+    DOCSDIR[("docs/<br/>case guides, checkpoints, DOCTREE")]
+    TOOLS["Learner tools, used by hand<br/>Jupyter or VS Code, R / Rscript,<br/>Excel, Power BI Desktop"]
+    subgraph PRIV["Optional private storage"]
+      VAULT["vault.py, vault_notes.py<br/>cryptography 50.0.2<br/>AES-256-GCM + Argon2id"]
+      VFILE[(".fvault file<br/>outside every Git worktree")]
+    end
+    subgraph QA["Local quality gates"]
+      HOOKS[".githooks pre-commit, pre-push<br/>check_commit.py, check_publication.py"]
+      RUN["scripts/run_checks.py<br/>unittest, zero skips + all verifies"]
+      BQA["scripts/check_browser.py + browser_smoke.mjs<br/>Node 22+, Edge via DevTools"]
+    end
+  end
+  subgraph EXT["Public sources: HTTPS host allowlist"]
+    USA["USAspending API<br/>api.usaspending.gov"]
+    GOV["DOJ, FBI, FTC, SEC, govinfo,<br/>CFPB, NY courts pages and PDFs"]
+    CFTC["CFTC public reporting"]
+    MEND["Mendeley Data + its S3 file host<br/>college pitch CSV, CC BY 4.0"]
+  end
+  subgraph GH["GitHub"]
+    REPO["Repo jameseby21/Become-a-Data-Analyst<br/>same history as jameseby21/fraud"]
+    CI["GitHub Actions verify.yml<br/>ubuntu-latest + windows-latest<br/>Python 3.12, Node 24, R on Linux"]
+  end
+
+  WEB <-->|"HTTP HTML + JSON"| APP
+  WEB --> LSB
+  APP --> ENGINE
+  APP --> LEARN
+  APP --> LIB
+  APP --> GAMEF
+  ENGINE --> DATA
+  LEARN --> COURSES
+  LEARN --> DATA
+  GAMEF --> GAMEDATA
+  LIB --> DATA
+  INTAKE -->|"HTTPS POST query"| USA
+  LIB -->|"HTTPS POST query"| USA
+  INTAKE -->|HTTPS GET| GOV
+  LIB -->|HTTPS GET| GOV
+  LIB -->|HTTPS GET| CFTC
+  LIB -->|HTTPS GET| MEND
+  INTAKE -->|"raw bytes + provenance"| DATA
+  FIXT -->|deterministic files| DATA
+  FIXT -->|deterministic files| GAMEDATA
+  GEN -->|lessons + notebooks| COURSES
+  GEN -->|case guides| DOCSDIR
+  TOOLS -->|notebooks, scripts| COURSES
+  TOOLS -->|CSV downloads| DATA
+  VAULT -->|encrypted write| VFILE
+  HOOKS -->|blocks private files + credentials| REPO
+  REPO -->|push / PR| CI
+  CI -->|runs| RUN
+  BQA -->|isolated server| APP
